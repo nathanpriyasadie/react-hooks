@@ -1,7 +1,19 @@
-const theme = {
-  colorPrimary: "white",
-  colorBackground: "#282c34",
-  colorDanger: "#f77c7c",
+export interface ThemeColor {
+  background: string;
+  primary: string;
+  danger: string;
+}
+
+const darkTheme: ThemeColor = {
+  background: "#303030",
+  primary: "#ffffff",
+  danger: "#ff1f0f",
 };
 
-export default theme;
+const lightTheme: ThemeColor = {
+  background: "#ffffff",
+  primary: "#303030",
+  danger: "#ff1f0f",
+};
+
+export { darkTheme, lightTheme };

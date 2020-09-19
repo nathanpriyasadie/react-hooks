@@ -30,13 +30,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 const useStyles = createUseStyles({
   cardContainer: {
     padding: "1rem",
-    backgroundColor: "white",
+    backgroundColor: ({ theme }) => theme.primary,
+    color: ({ theme }) => theme.background,
     width: "14.5rem",
     marginTop: " 1rem",
     alignSelf: "center",
     textDecorationStyle: "solid",
     "&:hover": {
-      backgroundColor: ({ theme }) => theme.colorDanger,
+      backgroundColor: ({ theme }) => theme.danger,
       cursor: "pointer",
     },
   },

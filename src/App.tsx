@@ -1,12 +1,10 @@
 import React from "react";
-import { ThemeProvider } from "react-jss";
 import { HomePage } from "./pages";
-import { TaskProvider } from "./contexts";
-import { theme } from "./utils";
+import { TaskProvider, ThemeProvider } from "./contexts";
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <TaskProvider>
         <HomePage />
       </TaskProvider>

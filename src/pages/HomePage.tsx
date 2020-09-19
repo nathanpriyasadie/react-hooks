@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { TaskCard } from "../components/TaskCard";
-import { TaskContext } from "../contexts";
+import { TaskContext, ThemeContext } from "../contexts";
 
 export default function HomePage() {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const { state: tasks, dispatch } = useContext(TaskContext);
+  const { toggleTheme } = useContext(ThemeContext);
   const [input, setInput] = useState<string>();
 
   function handleAddTask() {
@@ -22,6 +23,14 @@ export default function HomePage() {
       <div className={classes.appHeader}>
         <p>Your To Do</p>
       </div>
+      <button
+        onClick={() => {
+          toggleTheme();
+          console.log("called");
+        }}
+      >
+        Toggle Theme
+      </button>
       <div>
         <input
           placeholder="add new to do"
@@ -59,7 +68,7 @@ const useStyles = createUseStyles({
   },
   app: {
     textAlign: "center",
-    backgroundColor: ({ theme }) => theme.colorBackground,
+    backgroundColor: ({ theme }) => theme.background,
     minHeight: "100vh",
   },
   appHeader: {
@@ -68,7 +77,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     justifyContent: "center",
     fontSize: "2rem",
-    color: "white",
+    color: ({ theme }) => theme.primary,
     margin: 0,
   },
   button: {

@@ -1,1 +1,2 @@
-export * from "./task";
+export * from "./TaskProvider";
+export * from "./ThemeProvider";
