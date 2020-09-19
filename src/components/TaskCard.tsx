@@ -1,5 +1,5 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import { Task } from "../types/interfaces";
 
 interface TaskCardProps {
@@ -13,7 +13,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onToggleComplete,
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   return (
     <div
       className={classes.cardContainer}
@@ -35,7 +36,7 @@ const useStyles = createUseStyles({
     alignSelf: "center",
     textDecorationStyle: "solid",
     "&:hover": {
-      backgroundColor: "red",
+      backgroundColor: ({ theme }) => theme.colorDanger,
       cursor: "pointer",
     },
   },
