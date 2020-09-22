@@ -1,20 +1,26 @@
 import React, { useContext, useState } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { TaskCard } from "../components/TaskCard";
-import { TaskContext, ThemeContext } from "../contexts";
+import { Toggle } from "../components/Toggle";
+import { TaskContext, ThemeContext } from "../context";
 
 export default function HomePage() {
   const theme = useTheme();
   const classes = useStyles({ theme });
   const { state: tasks, dispatch } = useContext(TaskContext);
-  const { toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme, currentTheme } = useContext(ThemeContext);
   const [input, setInput] = useState<string>();
 
   function handleAddTask() {
     dispatch({ payload: input!, type: "ADD_TASK" });
+    setInput("");
   }
 
-  function handleCompleteTask(id: string) {
+  function handleEditTask(id: string) {
+    dispatch({ payload: id, type: "REMOVE_TASK" });
+  }
+
+  function handleDeleteTask(id: string) {
     dispatch({ payload: id, type: "REMOVE_TASK" });
   }
 
@@ -23,19 +29,15 @@ export default function HomePage() {
       <div className={classes.appHeader}>
         <p>Your To Do</p>
       </div>
-      <button
-        onClick={() => {
-          toggleTheme();
-          console.log("called");
-        }}
-      >
-        Toggle Theme
-      </button>
+      <div className={classes.toggleContainer}>
+        <Toggle toggleValue={currentTheme} onClick={() => toggleTheme()} />
+      </div>
       <div>
         <input
           placeholder="add new to do"
           className={classes.input}
           onChange={(e) => setInput(e.target.value)}
+          value={input}
         />
         <button
           className={classes.button}
@@ -51,7 +53,8 @@ export default function HomePage() {
                 key={index}
                 id={index}
                 task={task}
-                onToggleComplete={handleCompleteTask}
+                onDelete={handleDeleteTask}
+                onEdit={handleEditTask}
               />
             ))}
         </div>
@@ -79,6 +82,13 @@ const useStyles = createUseStyles({
     fontSize: "2rem",
     color: ({ theme }) => theme.primary,
     margin: 0,
+  },
+  toggleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "1rem",
   },
   button: {
     padding: "1rem",
