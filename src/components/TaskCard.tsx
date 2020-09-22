@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { Task } from "../types/interfaces";
 
@@ -6,8 +6,10 @@ interface TaskCardProps {
   task: Task;
   id: number;
   onDelete: (id: string) => void;
-  onEdit: (id: string) => void;
+  onEdit: (id: string, name: string) => void;
 }
+
+type TaskCardState = "edit" | "normal";
 
 export const TaskCard: React.FC<TaskCardProps> = ({
   id,
@@ -15,15 +17,32 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
   onEdit,
 }) => {
+  const [state, setState] = useState<TaskCardState>("normal");
+  const { name } = task;
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const ref = useRef<HTMLInputElement | null>(null);
+
   return (
     <div className={classes.cardContainer}>
-      <p className={classes.title}>{task.name}</p>
+      {state === "normal" ? (
+        <p className={classes.title}>{name}</p>
+      ) : (
+        <input
+          ref={ref}
+          onBlur={() => {
+            setState("normal");
+            onEdit(id.toString(), ref.current?.value!);
+          }}
+          defaultValue={name}
+        />
+      )}
       <div>
         <p
           className={classes.editButton}
-          onClick={() => onDelete(id.toString())}
+          onClick={() => {
+            setState("edit");
+          }}
         >
           Edit
         </p>

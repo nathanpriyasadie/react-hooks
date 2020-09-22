@@ -12,16 +12,16 @@ export default function HomePage() {
   const [input, setInput] = useState<string>();
 
   function handleAddTask() {
-    dispatch({ payload: input!, type: "ADD_TASK" });
+    dispatch({ payload: { name: input! }, type: "ADD_TASK" });
     setInput("");
   }
 
-  function handleEditTask(id: string) {
-    dispatch({ payload: id, type: "REMOVE_TASK" });
+  function handleEditTask(id: string, name: string) {
+    dispatch({ payload: { id, name }, type: "EDIT_TASK" });
   }
 
   function handleDeleteTask(id: string) {
-    dispatch({ payload: id, type: "REMOVE_TASK" });
+    dispatch({ payload: { id }, type: "REMOVE_TASK" });
   }
 
   return (
